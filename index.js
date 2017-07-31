@@ -38,6 +38,23 @@ app.get('/reactify/spotify-server/refresh_token', function(req, res) {
   });
 });
 
+app.get('/weather/', function(req, res) {
+
+  var appid = req.query.appid;
+  var query = req.query.q;
+  var options = {
+    url: 'http://api.openweathermap.org/data/2.5/forecast?appid=' + appid + '&q='+ query +',in',
+    json: true
+  };
+
+  request.get(options, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      res.send(response.body);
+    }
+  });
+});
+
+
 app.use('/react-weather', express.static(__dirname + '/react-weather/dist'));
 app.use('/reactify', express.static(__dirname + '/reactify/dist'));
 
